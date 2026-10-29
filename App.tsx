@@ -1,45 +1,44 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- *
- * @format
- */
+import React from "react";
 
-import { NewAppScreen } from '@react-native/new-app-screen';
-import { StatusBar, StyleSheet, useColorScheme, View } from 'react-native';
-import {
-  SafeAreaProvider,
-  useSafeAreaInsets,
-} from 'react-native-safe-area-context';
 
-function App() {
-  const isDarkMode = useColorScheme() === 'dark';
+import HomeScreen from "./screens/homeScreen";
+import EventScreen from "./screens/eventScreen";
+import EventDetailScreen from "./screens/eventDetailScreen";
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import { NavigationContainer } from "@react-navigation/native";
 
-  return (
-    <SafeAreaProvider>
-      <StatusBar barStyle={isDarkMode ? 'light-content' : 'dark-content'} />
-      <AppContent />
-    </SafeAreaProvider>
-  );
+type RootStackParmList = {
+  Home: undefined,
+  Events: undefined,
+  EventDetails: { eventName: string }
 }
 
-function AppContent() {
-  const safeAreaInsets = useSafeAreaInsets();
+const Stack = createNativeStackNavigator<RootStackParmList>();
+
+
+const App=()=>{
 
   return (
-    <View style={styles.container}>
-      <NewAppScreen
-        templateFileName="App.tsx"
-        safeAreaInsets={safeAreaInsets}
-      />
-    </View>
-  );
+    <NavigationContainer>
+      <Stack.Navigator initialRouteName="Home" >
+        <Stack.Screen
+          name="Home"
+          component={HomeScreen}
+          options={{ title: 'home' }}
+/>
+<Stack.Screen 
+name="Events"
+component={EventScreen}
+options={{title:'Sports Events'}}
+/>
+ <Stack.Screen
+      name="EventDetails"
+      component={EventDetailScreen}
+      options={{ title: 'Event Details' }}
+    />
+    </Stack.Navigator>
+    </NavigationContainer >
+  )
+
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-  },
-});
-
-export default App;
+export default App
